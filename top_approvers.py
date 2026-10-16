@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import requests
-from komentari import authsettings # 2 lazy to put them in here
+import authsettings
 
 HEADERS = {
     "User-Agent": "top approvers checker by user #1054326"
