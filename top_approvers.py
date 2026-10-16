@@ -13,7 +13,17 @@ inactive_approvers = users.copy()
 page = 1
 while True:
     print(f"Fetching users page #{page}")
-    resp = requests.get(f"https://danbooru.donmai.us/users.json?search[level]=>=37&page={page}&login={authsettings.LOGIN}&api_key={authsettings.APIKEY}&limit=1000", headers=HEADERS).json()
+    resp = requests.get(
+        "https://danbooru.donmai.us/users.json",
+        params={
+            "search[level]": ">=37",
+            "page": page,
+            "login": authsettings.LOGIN,
+            "api_key": authsettings.APIKEY,
+            "limit": 1000
+        },
+        headers=HEADERS
+    ).json()
     page += 1
     if len(resp) == 0:
         break
@@ -25,7 +35,15 @@ for user in users:
     print(f"Fetching approval count for {user}")
     while True:
         try:
-            count = requests.get(f"https://danbooru.donmai.us/counts/posts.json?tags=approver:{user}&login={authsettings.LOGIN}&api_key={authsettings.APIKEY}", headers=HEADERS).json()["counts"]["posts"]
+            count = requests.get(
+                "https://danbooru.donmai.us/counts/posts.json",
+                params={
+                    "tags": f"approver:{user}",
+                    "login": authsettings.LOGIN,
+                    "api_key": authsettings.APIKEY,
+                },
+                headers=HEADERS,
+            ).json()["counts"]["posts"]
             break
         except requests.exceptions.JSONDecodeError:
             continue
