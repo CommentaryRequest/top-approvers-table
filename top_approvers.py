@@ -51,7 +51,10 @@ for user in users:
     counts[user] = count
 
 counts = dict(sorted(counts.items(), key=lambda item: item[1], reverse=True))
+total_approvals = sum(counts.values())
 
+print(f"Total approvals: {total_approvals}")
 print("---===*** Top Approvers Table(tm) ***===---")
 for i, (key, value) in enumerate(counts.items()):
-    print(f"{i+1}. {key}{" (inactive)" if key in inactive_approvers else ""}: {value} approvals")
+    percentage = round(value / total_approvals * 100, 3)
+    print(f"{i+1}. {key}{" (inactive)" if key in inactive_approvers else ""}: {value} approvals ({percentage}%)")
